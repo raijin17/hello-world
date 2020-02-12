@@ -33,7 +33,7 @@
           <div>Requerido</div>
         </div>
       </div>
- <!--   <div class="col-md-3">
+      <div class="col-md-3" *ngIf="isWithFuel">
         <div class="form-group">
           <small class="form-text text-muted text-left">Tipo de combustible:</small>
           <mat-select class="form-control" formControlName="fuelTypeControl" [(value)]="selectedFuelType">
@@ -43,7 +43,7 @@
         <div *ngIf="submittedData && !selectedFuelType" style="color:red">
           <div>Requerido</div>
         </div>
-      </div> -->
+      </div>
     </div>
     <br/>
     <div style="border-style: groove; padding: 1%" *ngIf="isInputSectionVisible"><!-- Section Paro -->
@@ -77,24 +77,12 @@
             <small class="form-text text-muted" >Fecha Fin Aplicación:</small>
             <input class="form-control" type="date" min="{{initDate}}" formControlName="dateEndApplication"/>
           </div>
-    <!--      <div *ngIf="submittedData && isInputSectionVisible && f.dateEndApplication.errors" style="color:red">
-            <div *ngIf="f.dateEndApplication.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div> -->
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Hora Fin Aplicación:</small>
             <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="timeEndApplication"/>
           </div>
-  <!--        <div *ngIf="submittedData && isInputSectionVisible && f.timeEndApplication.errors" style="color:red">
-            <div *ngIf="f.timeEndApplication.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div> -->
         </div>
       </div>
       <div class="row" *ngIf="isEqFuelFactorSelected">
@@ -171,13 +159,13 @@
 
   <!-- Observaciones -->
   <!-- Test -->
-    <div *ngIf="isDefaultSectionsVisible">
-      <app-efh-comments [inIdEventConfig]="indicatorType.id" [inAction]="accion" [inTypeConfig]="2"></app-efh-comments>
-    </div>
+  <div *ngIf="isDefaultSectionsVisible">
+    <app-efh-comments [inIdEventConfig]="indicatorType.id" [inAction]="accion" [inTypeConfig]="2"></app-efh-comments>
+  </div>
 
   <!-- End Test -->
   <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
-      <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
+    <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
   </div>
   <div class="section" *ngIf="isDefaultSectionsVisible">
     <div class="row">

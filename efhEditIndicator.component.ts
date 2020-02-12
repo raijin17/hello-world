@@ -10,8 +10,6 @@ import { ConfirmationDialogService          } from '../../../../../core/services
 import { EventService                       } from '../../../../../core/services/event.service';
 import { EfhService                         } from '../../../../../core/services/efh.service';
 import {EventMessage} from '../../../../../core/models/EventMessage';
-import {Documents} from '../../../../../compliance/models/Documents';
-import {CarasDocument} from '../../../../../compliance/models/CarasDocument';
 
 @Component({
   selector: 'app-efh-edit-indicator',
@@ -33,7 +31,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   indicatorTypesArr = [];
   unitsArr = [];
   fuelTypesArr = [];
-//  fuelTypesForSelect = [];
+  fuelTypesForSelect = [];
   checkedEstatus = false;
   deshabiliarEstatus = false;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
@@ -42,8 +40,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   currentYear = new Date().getFullYear();
   initDate = (this.currentYear - 1) + '-01-01';
   idFuelType;
-  typeDocuments = ['Documentos'];
-  titleDocument: Array<any>;
 
   isShotSectionVisible = false;
   isStartSectionVisible = false;
@@ -59,6 +55,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   stopDatesValidation = false;
   chargeValidation = false;
   charge2Validation = false;
+  isWithFuel = true;
 
   isInputsControlsEnabled = true;
   isDefaultControlsEnabled = true;
@@ -105,8 +102,6 @@ export class EfhEditIndicatorComponent implements OnInit {
 
   ngOnInit() {
     this.titulo = 'Agregar Configuracion de Indicadores';
-
-    debugger;
     this.submittedData = false;
     this.indicatorForm = this.formBuilder.group({
       indicatorTypeControl: [null, null],
@@ -134,7 +129,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.unitsArr.sort((a, b) => a.name.localeCompare(b.name));
     this.fuelTypesArr = this.indicatorType.fuelTypesArr.filter(fuel => fuel.active);
     this.fuelTypesArr.sort((a, b) => a.name.localeCompare(b.name));
-    //this.fuelTypesForSelect = this.fuelTypesArr;
+    this.fuelTypesForSelect = this.fuelTypesArr;
     for (let fuelType of this.fuelTypesArr) {
       if(fuelType.name.trim() === 'SIN COMBUSTIBLE'){
         this.idFuelType = fuelType.id;
@@ -143,9 +138,8 @@ export class EfhEditIndicatorComponent implements OnInit {
 
     this.selectedIndicatorType = undefined;
     this.selectedUnit = undefined;
-//    this.selectedFuelType = undefined;
+    this.selectedFuelType = undefined;
 
-    debugger;
     this.accion = this.indicatorType.action;
     this.seccion = this.indicatorType.section;
 
@@ -166,10 +160,10 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.titulo = 'Agregar / Configuración de Indicadores';
     }
 
-    debugger;
     if (this.accion === 'editar' || this.accion === 'ver') {
       this.resetSections();
       debugger;
+
       switch (this.seccion) {
         case 'COSTO EFHI$': this.inputsControlsEnabled(this.accion === 'ver' ? false : true);
           this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
@@ -196,13 +190,12 @@ export class EfhEditIndicatorComponent implements OnInit {
           this.isDefaultSectionsVisible = true;
           break;
       }
-       this.obtenerDatosConfiguracionIndicator(true, this.indicatorType.id);
+      this.obtenerDatosConfiguracionIndicator(true, this.indicatorType.id);
     }
   }
 
   obtenerDatosConfiguracionIndicator(putData, id) {
     if (id !== 0) {
-      debugger;
       this.efhService.getIndicator(id)
           .subscribe(
               dataBack => {
@@ -212,15 +205,15 @@ export class EfhEditIndicatorComponent implements OnInit {
                   if (this.indicatorType.id === element.id && putData) {
                     this.selectedIndicatorType = this.indicatorTypesArr.find(x => x.id === element.idtypeindicator).id;
                     this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
-                   // this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
+                    this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
 
-                    //this.getObservations(this.eventType.id);
+                    // this.getObservations(this.eventType.id);
 
                     switch (element.idtypeindicator) {
-                      case 1: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                      case 1: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                        this.timeStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                        this.timeEndApplication = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                         this.efhiCost = element.value;
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
@@ -228,11 +221,11 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
                         this.indicatorForm.controls['efhiCost'].setValue(this.efhiCost);
                         break;
-                      case 4953:
-                      case 4: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                      case 2:
+                      case 4: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                        this.timeStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                        this.timeEndApplication = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                         this.equivalenFuelFactor = element.value;
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
@@ -240,21 +233,10 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
                         this.indicatorForm.controls['equivalenFuelFactor'].setValue(this.equivalenFuelFactor);
                         break;
-                      case 2: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
-                        this.equivalenFuelFactor = element.value;
-                        this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
-                        this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
-                        this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
-                        this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
-                        this.indicatorForm.controls['equivalenFuelFactor'].setValue(this.equivalenFuelFactor);
-                        break;
-                      case 5: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                      case 5: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                        this.timeStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                        this.timeEndApplication = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                         this.equivalenWithOutFuelFactor = element.value
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
@@ -262,11 +244,10 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
                         this.indicatorForm.controls['equivalenWithOutFuelFactor'].setValue(this.equivalenWithOutFuelFactor);
                         break;
-                      case -46:
-                      case 3: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                      case 3: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                        this.timeStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                        this.timeEndApplication = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                         this.maxiumLoad = element.value;
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
@@ -281,19 +262,26 @@ export class EfhEditIndicatorComponent implements OnInit {
                 }
 
                 if (!putData) {
-                  debugger;
                   if (this.indicatorForm.controls['indicatorTypeControl'].value === null) {
                     this.dataSubmit['idtypeindicator'] = this.selectedIndicatorType;
                   } else {
                     this.dataSubmit['idtypeindicator'] = this.indicatorForm.controls['indicatorTypeControl'].value;
                   }
-
-/*
+                  /*
                   if (this.indicatorForm.controls['fuelTypeControl'].value === null) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  } */
+                  if(this.indicatorForm.controls['fuelTypeControl'].value === null && this.isWithFuel) {
+                    this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  }
+                  if (this.indicatorForm.controls['fuelTypeControl'].value === null && !this.isWithFuel) {
+                    this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  }
+                  if(this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
+                    this.dataSubmit['idtypefuel'] = this.idFuelType;
                   } else {
                     this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
-                  } */
+                  }
 
                   if (this.indicatorForm.controls['unitControl'].value === null) {
                     this.dataSubmit['idunit'] = this.selectedUnit;
@@ -301,7 +289,6 @@ export class EfhEditIndicatorComponent implements OnInit {
                     this.dataSubmit['idunit'] = this.indicatorForm.controls['unitControl'].value;
                   }
 
-                  this.dataSubmit['idtypefuel'] = this.idFuelType;
                   this.dataSubmit['description'] = this.indicatorForm.controls['description'].value;
                   // this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
 
@@ -314,7 +301,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['efhiCost'].value;
                       break;
-                    case 4953:
+                    case 2:
                     case 4: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
                       this.timeStartApplication = this.indicatorForm.controls['timeStartApplication'].value;
                       this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
@@ -323,7 +310,6 @@ export class EfhEditIndicatorComponent implements OnInit {
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['equivalenFuelFactor'].value;
                       break;
-                    case 2:
                     case 5: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
                       this.timeStartApplication = this.indicatorForm.controls['timeStartApplication'].value;
                       this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
@@ -346,10 +332,11 @@ export class EfhEditIndicatorComponent implements OnInit {
                   this.dataSubmit['id'] = this.indicatorType.id;
                   this.dataSubmit['order'] = this.indicatorType.id;
                   this.dataSubmit['save'] = false;
-                  debugger;
+
                   this.efhService.setIndicator(this.dataSubmit)
                       .subscribe(
                           dataBack => {
+
                             if (dataBack['code'] === -100) {
                               this.toastr.errorToastr('No es posible actualizar, existe un evento activo que se empalma', 'Lo siento,');
                             } else {
@@ -389,7 +376,7 @@ export class EfhEditIndicatorComponent implements OnInit {
           );
     } else {
       this.dataSubmit['idtypeindicator'] = this.indicatorForm.controls['indicatorTypeControl'].value;
-      this.dataSubmit['idtypefuel'] = this.idFuelType;
+      this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
       this.dataSubmit['idunit'] = this.indicatorForm.controls['unitControl'].value;
       this.dataSubmit['description'] = this.indicatorForm.controls['description'].value;
       this.dataSubmit['active'] = this.checkedEstatus;
@@ -431,7 +418,7 @@ export class EfhEditIndicatorComponent implements OnInit {
       if (this.accion === 'nuevo') {
         this.dataSubmit['save'] = true;
       }
-      debugger;
+
       this.efhService.setIndicator(this.dataSubmit)
           .subscribe(
               dataBack => {
@@ -471,10 +458,9 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   enableControls(selected) {
-    debugger;
     this.selectControlsEnabled(true);
     this.resetSections();
-    //this.fuelTypesArr = this.fuelTypesForSelect;
+    this.fuelTypesArr = this.fuelTypesForSelect;
     switch (selected.value) {
       case 1: this.inputsControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
@@ -482,6 +468,7 @@ export class EfhEditIndicatorComponent implements OnInit {
         this.isDefaultSectionsVisible = true;
         this.isEfhiSelected = true;
         break;
+      case 2:
       case 4: this.withFuelControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
         this.isInputSectionVisible = true;
@@ -493,6 +480,7 @@ export class EfhEditIndicatorComponent implements OnInit {
         this.isInputSectionVisible = true;
         this.isDefaultSectionsVisible = true;
         this.isEqWithOutFuelFactorSelected = true;
+        this.isWithFuel = false;
         break;
       case 3: this.maxiumLoadControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
@@ -510,6 +498,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.isEqFuelFactorSelected = false;
     this.isEqWithOutFuelFactorSelected = false;
     this.isMaxiumLoadSelected = false;
+    this.isWithFuel = true;
     this.inputsControlsEnabled(false);
     this.defaultConstrolsEnabled(false);
     this.maxiumLoadControlsEnabled(false);
@@ -518,7 +507,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     this.submittedData = true;
     /*if ((this.isInputSectionVisible && this.indicatorForm.controls['dateStartApplication'].invalid)
         || (this.isInputSectionVisible && this.indicatorForm.controls['timeStartApplication'].invalid)
@@ -542,19 +530,18 @@ export class EfhEditIndicatorComponent implements OnInit {
         || (this.isMaxiumLoadSelected && this.indicatorForm.controls['maxiumLoad'].invalid)
         || (this.isEfhiSelected && this.indicatorForm.controls['efhiCost'].invalid)
         || this.indicatorForm.controls['description'].invalid
-        || (this.selectedUnit === undefined || this.selectedUnit === null))
-    //    || (this.selectedFuelType === undefined || this.selectedFuelType === null))
-    {
+        || (this.selectedUnit === undefined || this.selectedUnit === null)
+        || (this.isWithFuel && this.selectedFuelType === undefined || this.isWithFuel && this.selectedFuelType === null)) {
       this.toastr.errorToastr('Verifique los campos.', 'Lo siento,');
       return;
     }
 
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateEndApplication'].invalid)
         || (this.isInputSectionVisible && this.indicatorForm.controls['timeEndApplication'].invalid)){
-            this.dateEndApplication = '2099-12-31';
-            this.timeEndApplication = '00:00:00';
-            this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
-            this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
+      this.dateEndApplication = '2099-12-31';
+      this.timeEndApplication = '00:00:00';
+      this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
+      this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
     }
 
     if (this.isInputSectionVisible
@@ -624,7 +611,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   withFuelControlsEnabled(flag) {
-    debugger;
     this.isWithFuelControlsEnabled = flag;
     if (flag) {
       this.indicatorForm.controls.dateStartApplication.enable();
@@ -712,30 +698,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   regresar() {
-  /*    let documents: Documents;
-      let carasDocumnts: Array<CarasDocument>;
-      for (let i = 0; i < this.typeDocuments.length; i++) {
-        carasDocumnts =  [];
-        this.efhService.getDocuments(2, this.indicatorType.id, this.typeDocuments[i]).subscribe(
-            docto => {
-              for (let j = 0; j < docto.length; j++) {
-                carasDocumnts.push(new CarasDocument(docto[j].fileName, docto[j].fileType, docto[j].fileId));
-              }
-            },
-            error => {
-              const error1 = error;
-            }
-        );
-        documents = new Documents(this.typeDocuments[i], carasDocumnts);
-        //this.titleDocument.push(documents);
-      }
-
-      if(documents.carasDocuments.length === 0){
-        this.toastr.errorToastr(Constants.ERROR_SAVE_DOCUMENT, 'Lo siento,');
-      } else{
-        this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
-      }
-*/
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
   }
 
