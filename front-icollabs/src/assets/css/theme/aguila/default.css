@@ -1,0 +1,16 @@
+#myheader, 
+#myfooter,
+.btn, 
+.mybtn,
+.colortheme
+{
+    background:#0F5787;
+    color:#ffffff;
+}
+.mat-selected-row{
+    background: #cfd8dc!important;
+}
+.sidebar_item:hover, .sidebar_item.itemActive{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+}
