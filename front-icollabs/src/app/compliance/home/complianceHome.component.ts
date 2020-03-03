@@ -22,7 +22,8 @@ import { PerfilHomeComponent              } from '../business/perfil/home/perfil
 import { TaskPlanningComponent            } from '../administration/task-planning/task-planning.component';
 import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent        } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
-import { HighstaffComponent				  } from 'src/app/compliance/resources/highstaff/highstaff.component';
+import { HighComponent				      } from 'src/app/compliance/resources/staff/high/high.component';
+import { ResourcePerfilComponent                  } from 'src/app/compliance/resources/perfil/perfil.component';
 
 @Component({
 	selector        : 'app-complianceHome',
@@ -43,7 +44,8 @@ import { HighstaffComponent				  } from 'src/app/compliance/resources/highstaff/
 		,TaskPlanningComponent
 		,TaskEditComponent
 		,TemplateEditTaskComponent
-		,HighstaffComponent
+		,HighComponent
+		,ResourcePerfilComponent
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -80,9 +82,10 @@ export class ComplianceHomeComponent implements OnInit {
 	}
 	  	
 	subscribeOnChangePage(){
+		debugger;
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
-				//debugger;
+
 				this.globalService.setPage(event);
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
@@ -173,9 +176,18 @@ export class ComplianceHomeComponent implements OnInit {
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
 						break;
-					case 'Compliance.Alta Personal':
+					case 'Compliance.registerPersonal':
 						this.viewContainerRef
-							.createComponent(this.componentFactoryResolver.resolveComponentFactory(HighstaffComponent)).changeDetectorRef.detectChanges();
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(HighComponent)).changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.registerPersonal.11':
+						let refPerfil = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ResourcePerfilComponent));
+						refPerfil.instance.inIdEmpleado = event.data.idEmpleado;
+						refPerfil.instance.isViewable = 'true';
+						refPerfil.instance.isdisabled =  event.data.isdisabled;
+						refPerfil.instance.inTipo = event.data.tipo;
+						refPerfil.changeDetectorRef.detectChanges();
 						break;
 					default:
 				}

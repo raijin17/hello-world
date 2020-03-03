@@ -61,8 +61,11 @@ import { TaskObservacionComponent               } from './administration/task-pl
 import { TaskEstatusComponent                   } from './administration/task-planning/home-edit/task-estatus/task-estatus.component';
 import { TaskGanttComponent                     } from './administration/task-planning/home-edit/task-gantt/task-gantt.component';
 import { TaskFilesComponent                     } from './administration/task-planning/home-edit/task-files/task-files.component';
-import { DatePipe } from '@angular/common';
-import { HighstaffComponent } from './resources/highstaff/highstaff.component';
+import { DatePipe							 	} from '@angular/common';
+import { StaffComponent 						} from './resources/staff/staff.component';
+import { SuppliersComponent 					} from './resources/suppliers/suppliers.component';
+import { HighComponent							} from './resources/staff/high/high.component';
+import { ResourcePerfilComponent						} from './resources/perfil/perfil.component';
 
 
 
@@ -103,7 +106,10 @@ import { HighstaffComponent } from './resources/highstaff/highstaff.component';
 		,TaskEstatusComponent
 		,TaskGanttComponent
 		,TaskFilesComponent
-		, HighstaffComponent
+		, StaffComponent
+		, SuppliersComponent
+		, HighComponent
+		,ResourcePerfilComponent
     ],
     exports:[
     ],

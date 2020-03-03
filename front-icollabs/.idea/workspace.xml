@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="13b3b263-1871-419b-b3fe-164b5efb8bf8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/compliance/complianceModule.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/compliance/complianceModule.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/compliance/home/complianceHome.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/compliance/home/complianceHome.component.ts" afterDir="false" />
-    </list>
+    <list default="true" id="13b3b263-1871-419b-b3fe-164b5efb8bf8" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1YJuIhGXwzLFWsaSQIL2rPvmldg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -28,6 +25,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RunManager" selected="npm.Angular CLI Server">
@@ -73,6 +71,8 @@
       <workItem from="1582672979841" duration="1282000" />
       <workItem from="1582761982170" duration="755000" />
       <workItem from="1582816353219" duration="4898000" />
+      <workItem from="1582832660791" duration="5383000" />
+      <workItem from="1583184694810" duration="7141000" />
     </task>
     <servers />
   </component>
@@ -80,37 +80,50 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1423" height="278" key="GridCell.Tab.0.bottom" timestamp="1582817475809">
-      <screen x="2560" y="23" width="1920" height="1057" />
+    <state width="949" height="266" key="GridCell.Tab.0.bottom" timestamp="1583193664521">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="681" height="266" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1582837224991" />
+    <state width="949" height="266" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1583193664521" />
     <state width="1423" height="278" key="GridCell.Tab.0.bottom/2560.23.1920.1057/0.23.2560.1336@0.23.2560.1336" timestamp="1582765604086" />
     <state width="1423" height="278" key="GridCell.Tab.0.bottom/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582817475809" />
     <state width="1423" height="278" key="GridCell.Tab.0.bottom/2560.23.1920.1057/0.23.2560.1342@0.23.2560.1342" timestamp="1582679751232" />
-    <state width="1423" height="278" key="GridCell.Tab.0.center" timestamp="1582817475809">
-      <screen x="2560" y="23" width="1920" height="1057" />
+    <state width="949" height="266" key="GridCell.Tab.0.center" timestamp="1583193664521">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="681" height="266" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1582837224991" />
+    <state width="949" height="266" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1583193664521" />
     <state width="1423" height="278" key="GridCell.Tab.0.center/2560.23.1920.1057/0.23.2560.1336@0.23.2560.1336" timestamp="1582765604086" />
     <state width="1423" height="278" key="GridCell.Tab.0.center/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582817475809" />
     <state width="1423" height="278" key="GridCell.Tab.0.center/2560.23.1920.1057/0.23.2560.1342@0.23.2560.1342" timestamp="1582679751231" />
-    <state width="1423" height="278" key="GridCell.Tab.0.left" timestamp="1582817475808">
-      <screen x="2560" y="23" width="1920" height="1057" />
+    <state width="949" height="266" key="GridCell.Tab.0.left" timestamp="1583193664521">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="681" height="266" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1582837224991" />
+    <state width="949" height="266" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1583193664521" />
     <state width="1423" height="278" key="GridCell.Tab.0.left/2560.23.1920.1057/0.23.2560.1336@0.23.2560.1336" timestamp="1582765604085" />
     <state width="1423" height="278" key="GridCell.Tab.0.left/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582817475808" />
     <state width="1423" height="278" key="GridCell.Tab.0.left/2560.23.1920.1057/0.23.2560.1342@0.23.2560.1342" timestamp="1582679751230" />
-    <state width="1423" height="278" key="GridCell.Tab.0.right" timestamp="1582817475809">
-      <screen x="2560" y="23" width="1920" height="1057" />
+    <state width="949" height="266" key="GridCell.Tab.0.right" timestamp="1583193664521">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="681" height="266" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1582837224991" />
+    <state width="949" height="266" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1583193664521" />
     <state width="1423" height="278" key="GridCell.Tab.0.right/2560.23.1920.1057/0.23.2560.1336@0.23.2560.1336" timestamp="1582765604086" />
     <state width="1423" height="278" key="GridCell.Tab.0.right/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582817475809" />
     <state width="1423" height="278" key="GridCell.Tab.0.right/2560.23.1920.1057/0.23.2560.1342@0.23.2560.1342" timestamp="1582679751231" />
+    <state x="463" y="166" key="SettingsEditor" timestamp="1582832774514">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="463" y="166" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1582832774514" />
     <state x="1489" y="646" width="996" height="696" key="dock-window-1" timestamp="1582821014740">
       <screen x="0" y="23" width="2560" height="1336" />
     </state>
     <state x="1489" y="646" width="996" height="696" key="dock-window-1/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582821014740" />
-    <state x="3350" y="462" width="350" height="300" key="org.angular.cli.generate" timestamp="1582817447055">
-      <screen x="2560" y="23" width="1920" height="1057" />
+    <state x="2710" y="432" width="350" height="298" key="org.angular.cli.generate" timestamp="1583185947965">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="2710" y="432" width="350" height="298" key="org.angular.cli.generate/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1583185947965" />
     <state x="3350" y="462" width="350" height="300" key="org.angular.cli.generate/2560.23.1920.1057/0.23.2560.1336@2560.23.1920.1057" timestamp="1582817447055" />
   </component>
 </project>
