@@ -7,6 +7,8 @@ import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../../core/globals/global.service';
 import {EventMessage} from '../../../../core/models/EventMessage';
 import {EventBlocked} from '../../../../core/models/EventBlocked';
+import {ComplianceHighstaffService} from '../../../../core/services/compliance-highstaff.service';
+import {PersonalCompetenteService} from 'src/app/compliance/services/personal-competente.service';
 
 export interface RegisterPersonal {
   orden: number;
@@ -25,7 +27,7 @@ export interface RegisterPersonal {
   estatus:string;
   ver: string;
   editar: string;
-  // pdf: string;
+ // pdf: string;
   eliminar: string;
   mensajeEliminar: string;
 }
@@ -73,7 +75,7 @@ export class RegisterPersonalImp implements RegisterPersonal {
     this.estatus = estatus;
     this.ver = ver;
     this.editar = editar;
-    // this.pdf = pdf;
+   // this.pdf = pdf;
     this.eliminar = eliminar;
     this.mensajeEliminar = mensajeEliminar;
   }
@@ -103,53 +105,92 @@ export class HighComponent implements OnInit {
   filtrobtn = { label: "buscar" };
   registros_x_pagina = [5, 10, 20, 30];
 
-  constructor(
-      private catalogoMaestroService: CatalogoMaestroService,
-      private preguntas: PerfilComboService,
-      private eventService: EventService,
-      public toastr: ToastrManager,
-      public globalService: GlobalService) { }
+  constructor(private personal: PersonalCompetenteService,
+              private catalogoMaestroService: CatalogoMaestroService,
+              private preguntas: PerfilComboService,
+              private eventService: EventService,
+              public toastr: ToastrManager,
+              public globalService: GlobalService) { }
+
+
+  getCatalog(index, catalog) {
+    this.catalogoMaestroService.getCatalogoIndividual(catalog).subscribe(
+        (dataBack) => {
+          console.log("dataBack");
+          console.log(dataBack);
+        });
+  }
+
+  loadCatalogs() {
+    this.getCatalog(3, 'gender');
+    this.getCatalog(4, 'position');
+    this.getCatalog(5, 'department');
+    this.getCatalog(6, 'workstation');
+    this.getCatalog(7, 'employeePlace');
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.cargaTabla();
+    this.getDataSource();
   }
 
-  cargaTabla() {
+  getDataSource() {
     debugger;
     this.addBlock(1, null);
     this.elementData = [];
-    for( let a = 0; a < 10; a++){
-      let index: number = 1;
-      const empleadoId = 1;
-      let empleadoStrId = "1";
-      let nombres = 'Alberto';
-      let paterno = 'Garcia';
-      let materno = 'Loreto';
+    this.personal.getEmpleados().subscribe(
+        dataBack => {
+          let estatus = dataBack['status'];
+          if( estatus === 'exito' ){
+            let index: number = 1;
+            Object.keys(dataBack['empleados']).forEach(key => {
+              const empleadoId = dataBack['empleados'][key].empleadoId;
+              let empleadoStrId = dataBack['empleados'][key].empleadoStrId;
+              let nombres = dataBack['empleados'][key].nombres;
+              let paterno = dataBack['empleados'][key].paterno;
+              let materno = dataBack['empleados'][key].materno;
+              let generoId = dataBack['empleados'][key].generoId;
+              let entidadEstatus = dataBack['empleados'][key].estidadEstatus;
+              let posicionId = dataBack['empleados'][key].posicionId;
+              let departamentoId = dataBack['empleados'][key].departamentoId;
+              let puestoId = dataBack['empleados'][key].puestoId;
+              let lugarTrabajoId = dataBack['empleados'][key].lugarTrabajoId;
+              let userCreated = dataBack['empleados'][key].userCreated;
+              let dateCreated = dataBack['empleados'][key].dateCreated;
+              let userUpdated = dataBack['empleados'][key].userUpdated;
+              let dateUpdated = dataBack['empleados'][key].dateUpdated;
+              this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoId, posicionId, departamentoId, puestoId, lugarTrabajoId, userUpdated, dateUpdated, estatus, 'home-compliance/',
+                  'home-compliance/',
+                  'home-compliance',
+                  'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
+              index++;
+            });
 
-      let generoId = "1";
-      let posicionId = "1";
-      let departamentoId = "1";
-      let puestoId = "1";
-      let lugarDeTrabajoId = "1";
-      let usuarioModifico = "98765";
-      let fechaHoraUltimaModificacion = "12/02/2020";
-      let estatus = "Activo";
-      this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoId, posicionId, departamentoId, puestoId, lugarDeTrabajoId, usuarioModifico, fechaHoraUltimaModificacion, estatus, 'home-compliance/',
-          'home-compliance/',
-          'home-compliance',
-          'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
-      //    'home-compliance'));
-      index++;
+            console.log( this.elementData)
+            this.registros = new MatTableDataSource<RegisterPersonal>(this.elementData);
+            this.registros.paginator = this.paginator;
+            this.registros.sort = this.sort;
+
+            this.addBlock(2, null);
+          }
+        });
+  }
+
+  valorModal: number;
+  eliminar($event, empleadoId: number) {
+    this.valorModal = $event;
+    /*si modal regresa 1 es que aceptado la operacion */
+    if (this.valorModal == 1) {
+      this.personal.deleteEliminar(empleadoId).subscribe(
+          respuesta => {
+            if (respuesta['status'] == "exito") {
+              this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente'));
+            }
+          }
+      );
     }
-    this.registros = new MatTableDataSource<RegisterPersonal>(this.elementData);
-    this.registros.paginator = this.paginator;
-    this.registros.sort = this.sort;
-
-
-    this.addBlock(2, null);
   }
 
   action(idEmpleado, tipo) {

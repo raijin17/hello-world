@@ -23,7 +23,7 @@ import { TaskPlanningComponent            } from '../administration/task-plannin
 import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent        } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 import { HighComponent				      } from 'src/app/compliance/resources/staff/high/high.component';
-import { ResourcePerfilComponent                  } from 'src/app/compliance/resources/perfil/perfil.component';
+import { ResourcePerfilComponent          } from 'src/app/compliance/resources/staff/perfil/perfil.component';
 
 @Component({
 	selector        : 'app-complianceHome',

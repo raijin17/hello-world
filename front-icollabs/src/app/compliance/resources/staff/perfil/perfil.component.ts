@@ -1,15 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {PerfilComboService} from '../../../core/services/perfil-combo.service';
+import {PerfilComboService} from '../../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
-import {GlobalService} from '../../../core/globals/global.service';
-import {EventService} from '../../../core/services/event.service';
-import {OrderCatalogDTO} from '../../models/OrderCatalogDTO';
-import {Combo} from '../../models/Combo';
-import {Detalle} from '../../models/Detalle';
-import {Empleado} from '../../models/Empleado';
-import {EventMessage} from '../../../core/models/EventMessage';
+import {GlobalService} from '../../../../core/globals/global.service';
+import {EventService} from '../../../../core/services/event.service';
+import {OrderCatalogDTO} from '../../../models/OrderCatalogDTO';
+import {Combo} from '../../../models/Combo';
+import {Detalle} from '../../../models/Detalle';
+import {Empleado} from '../../../models/Empleado';
+import {EventMessage} from '../../../../core/models/EventMessage';
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'app-perfil',
@@ -22,6 +23,8 @@ export class ResourcePerfilComponent implements OnInit {
   @Input() inTipo: string;
   @Input() isViewable: string;
   title = 'Perfil de Puesto';
+  title2 = 'Competencia de los recursos / Alta de personal / Agregar ';
+  title3 = 'Datos personales / '
   generos: Array<any>;
   grados: Array<any>;
   posiciones: Array<any>;
@@ -50,6 +53,9 @@ export class ResourcePerfilComponent implements OnInit {
   workingHour;
   employeePlace;
   employeeDependent;
+  imageUrl: string | ArrayBuffer = "../../../assets/img/foto.png";
+  fileName: string = "No file selected";
+  file: File;
 
   constructor(private cmbos: PerfilComboService,
               private formBuilder: FormBuilder,
@@ -274,5 +280,19 @@ export class ResourcePerfilComponent implements OnInit {
     }
 
     this.guardarEmpleado();
+  }
+
+  onChange(file: File){
+      if(file) {
+          this.fileName = file.name;
+          this.file = file;
+
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+
+          reader.onload = event => {
+              this.imageUrl = reader.result;
+          };
+      }
   }
 }

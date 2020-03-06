@@ -7,7 +7,7 @@ import {MdbTableService} from 'angular-bootstrap-md';
   styleUrls: ['./staff.component.scss']
 })
 export class StaffComponent implements OnInit {
-  titulo = 'Competensia de los recursos/Alta de Personal';
+  titulo = 'Competencia de los recursos / Alta de Personal';
   constructor(private tableService: MdbTableService) { }
 
   ngOnInit() {

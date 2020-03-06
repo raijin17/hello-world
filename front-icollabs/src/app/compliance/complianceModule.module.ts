@@ -65,7 +65,7 @@ import { DatePipe							 	} from '@angular/common';
 import { StaffComponent 						} from './resources/staff/staff.component';
 import { SuppliersComponent 					} from './resources/suppliers/suppliers.component';
 import { HighComponent							} from './resources/staff/high/high.component';
-import { ResourcePerfilComponent						} from './resources/perfil/perfil.component';
+import { ResourcePerfilComponent				} from './resources/staff/perfil/perfil.component';
 
 
 

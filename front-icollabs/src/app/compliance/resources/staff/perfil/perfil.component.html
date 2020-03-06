@@ -1,7 +1,14 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{title2}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
 <div class="section">
   <div class="row pb-2">
     <div class="col">
-      <p class="section_titulo_0">{{title}}</p>
+      <p class="section_titulo_0">{{title3+title}}</p>
       <p class="section_subtitulo_0"> </p>
     </div>
   </div>
@@ -11,7 +18,18 @@
       <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="col-3 text-center" >
-            <img src="../../../assets/img/foto.png" width="110" height="110">
+           <!-- <img src="../../../assets/img/foto.png" width="110" height="110"> -->
+            <img [src]="imageUrl" width="110" height="110">
+            <button mat-mini-fab [color]="'success'">
+              <mat-icon>edit</mat-icon>
+              <input
+                      class="mdl-button--file"
+                      type="file"
+                      name="file"
+                      #fileInput
+                      (change)="onChange(fileInput.files[0])"
+              />
+            </button>
           </div>
           <div class="col-9" >
             <div class="row">
